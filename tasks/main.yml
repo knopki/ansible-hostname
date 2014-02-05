@@ -1,0 +1,17 @@
+---
+- name: Set hostname
+  hostname: name={{ hostname_name }}
+  when: hostname_name is defined
+
+- name: Update /etc/hosts
+  lineinfile:
+    dest=/etc/hosts
+    regexp="^127\.0\.1\.1"
+    line="127.0.1.1{{'\t'}}{{ hostname_name }}.{{ hostname_domain }}{{'\t'}}{{ hostname_name }}"
+    state=present
+    backup=yes
+  when:
+    (hostname_name is defined and hostname_name != ansible_hostname)
+    or (hostname_domain is defined and hostname_domain != ansible_domain)
+
+
