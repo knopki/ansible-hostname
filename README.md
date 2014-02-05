@@ -11,8 +11,8 @@ Ansible version 1.4 with modules _hostname_ and _template_. Ansible module _host
 Role Variables
 --------------
 
- * _hostname_name_ - new hostname (not FQDN, before first dot)
- * _hostname_domain_ - new domain name
+ * *hostname_name* - new hostname (not FQDN, before first dot)
+ * *hostname_domain* - new domain name
 
 License
 -------
