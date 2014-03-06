@@ -1,4 +1,14 @@
 ---
+- name: Keep temporary old hostname in /etc/hosts
+  lineinfile:
+    dest=/etc/hosts
+    regexp="^127\.0\.1\.1(.*)"
+    line="127.0.1.1{{'\t'}}{{ hostname_name }}{% if hostname_name != hostname_fqdn %}{{'\t'}}{{ hostname_fqdn }}{% endif %}\1"
+    state=present
+    backup=yes
+    backrefs=yes
+  when: ansible_hostname != hostname_name
+
 - name: Set hostname
   hostname: name={{ hostname_name }}
   when: hostname_name is defined
@@ -7,11 +17,5 @@
   lineinfile:
     dest=/etc/hosts
     regexp="^127\.0\.1\.1"
-    line="127.0.1.1{{'\t'}}{{ hostname_name }}.{{ hostname_domain }}{{'\t'}}{{ hostname_name }}"
+    line="127.0.1.1{{'\t'}}{{ hostname_name }}{% if hostname_name != hostname_fqdn %}{{'\t'}}{{ hostname_fqdn }}{% endif %}"
     state=present
-    backup=yes
-  when:
-    (hostname_name is defined and hostname_name != ansible_hostname)
-    or (hostname_domain is defined and hostname_domain != ansible_domain)
-
-
