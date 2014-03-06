@@ -8,10 +8,12 @@
     backup=yes
     backrefs=yes
   when: ansible_hostname != hostname_name
+  tags: [configuration,hostname]
 
 - name: Set hostname
   hostname: name={{ hostname_name }}
   when: hostname_name is defined
+  tags: [configuration,hostname]
 
 - name: Update /etc/hosts
   lineinfile:
@@ -19,3 +21,4 @@
     regexp="^127\.0\.1\.1"
     line="127.0.1.1{{'\t'}}{{ hostname_name }}{% if hostname_name != hostname_fqdn %}{{'\t'}}{{ hostname_fqdn }}{% endif %}"
     state=present
+  tags: [configuration,hostname]
