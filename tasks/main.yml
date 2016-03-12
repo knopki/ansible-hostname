@@ -3,7 +3,7 @@
   lineinfile:
     dest=/etc/hosts
     regexp="^127\.0\.1\.1(.*)"
-    line="127.0.1.1{{'\t'}}{{ hostname_name }}{% if hostname_name != hostname_fqdn %}{{'\t'}}{{ hostname_fqdn }}{% endif %}\1"
+    line="127.0.1.1{{'\t'}}{% if hostname_name != hostname_fqdn %}{{ hostname_fqdn }}{{'\t'}}{% endif %}{{ hostname_name }}\1"
     state=present
     backup=yes
     backrefs=yes
@@ -19,6 +19,6 @@
   lineinfile:
     dest=/etc/hosts
     regexp="^127\.0\.1\.1"
-    line="127.0.1.1{{'\t'}}{{ hostname_name }}{% if hostname_name != hostname_fqdn %}{{'\t'}}{{ hostname_fqdn }}{% endif %}"
+    line="127.0.1.1{{'\t'}}{% if hostname_name != hostname_fqdn %}{{ hostname_fqdn }}{{'\t'}}{% endif %}{{ hostname_name }}"
     state=present
   tags: [configuration,hostname]
