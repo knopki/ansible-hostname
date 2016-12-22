@@ -1,3 +1,8 @@
+DEPRECATED AND UNMANTAINED
+=============
+This role is useless because Ansible `hostname` module supports most distributions now.
+
+
 hostname
 ========
 
